@@ -3,7 +3,12 @@
   %head
     %title= "#{@article.title} &ndash; hoboken"
     %link{:href=>'/main.css', :media=>'screen', :rel=>'Stylesheet', :type=>'text/css'}
-
+    %link{:rel=>'stylesheet', :href=>'/markitup/skins/markitup/style.css', :type=>'text/css', :media=>'screen'}
+    %link{:rel=>'stylesheet', :href=>'/markitup/sets/wiki/style.css', :media=>'screen', :type=>'text/css'}
+    %script{:type=>'text/javascript', :src=>'/javascripts/jquery.js', :charset=>'utf-8'}
+    %script{:type=>'text/javascript', :src=>'/markitup/jquery.markitup.js', :charset=>'utf-8'}
+    %script{:type=>'text/javascript', :src=>'/markitup/sets/wiki/set.js', :charset=>'utf-8'}
+    %script{:type=>'text/javascript', :src=>'/javascripts/application.js', :charset=>'utf-8'}
   %body
     #main
       #sidebar

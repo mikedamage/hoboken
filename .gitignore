@@ -3,3 +3,5 @@ IDEAS
 config.yml
 /doc
 wiki.db
+._*
+*~
