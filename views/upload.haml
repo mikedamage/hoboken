@@ -1,0 +1,18 @@
+%h1 Upload Files
+
+%p
+  Select a file using the form below, then click "Upload" to upload it. Once the upload is complete,
+  you'll be able to copy & paste a link to the file into wiki articles. See 
+  %a{:href=>'/WikiHelp'} WikiHelp
+  for more information.
+  
+%form{:action => '/upload', :method => 'post', :enctype => 'multipart/form-data', :id => 'upload_form'}
+  %fieldset
+    %legend Select a File
+    %input{:type => 'file', :name => 'data', :id => 'data'}
+    %button{:id => 'submit', :type => 'submit'} Upload
+  %div{:class => 'loading', :style => 'display:none;'}
+    %img{:src => '/images/loading_small.gif'}
+    %em{:style => 'line-height:38px;vertical-align:top;'} Working...
+  %div{:class => 'upload_info', :style => 'display:none;'}
+  

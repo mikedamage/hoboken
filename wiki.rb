@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 
 configure do
-  %w(pathname yaml haml sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
+  %w(pathname yaml haml ostruct sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
 
   ROOT = File.expand_path(File.dirname(__FILE__))
   config = begin
@@ -45,6 +45,11 @@ post '/' do
 end
 
 get '/:slug' do
+	case params[:slug]
+		when "upload" then pass
+		when "files" then pass
+	end
+	
   @article = Article.first(:slug => params[:slug])
   if @article
     haml :show
@@ -70,11 +75,27 @@ post '/:slug/edit' do
   haml :revert
 end
 
+get '/files' do
+	@article = OpenStruct.new({ :title => "File Manager" })
+	@files = Pathname.new(File.join(ROOT, 'public/files')).children
+	haml :files
+end
+
 get '/upload' do
+	@article = OpenStruct.new({ :title => "Upload a File" })
+	haml :upload
 end
 
 post '/upload' do
-	
+	@upload = params[:data]
+	upload_dir = Pathname.new(File.join(ROOT, 'public/files'))
+	unless upload_dir.children.find {|file| file.basename.to_s == @upload[:filename]}
+		File.open(File.join(upload_dir.to_s, @upload[:filename]), "w") do |file|
+			file.write(@upload[:tempfile].readlines.join("\n"))
+		end
+	else
+		
+	end
 end
 
 # Renders Sass stylesheets in the specified format.
