@@ -5,3 +5,4 @@ config.yml
 wiki.db
 ._*
 *~
+*.tmproj

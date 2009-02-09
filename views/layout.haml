@@ -32,11 +32,6 @@
               %li
                 %a{:href => article.slug}
                   = article.title
-        %div{:class => "upload"}
-          %form{:action => "/upload", :method => 'post'}
-            %label{:for => 'data'} Select a File
-            %input{:type => 'file', :name => 'data', :id => 'data'}
-            %button{:type => "button", :class => "submit"} Upload
       #content
         = yield
       #footer

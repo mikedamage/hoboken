@@ -7,7 +7,7 @@ $(document).ready(function() {
 		$('.upload').toggle('fast');
 	});
 	
-	$('button.submit').click(function() {
-		$.post('/upload', {})
-	});
+	if ( window.location.href.match(/upload/) ) {
+		
+	}
 });
