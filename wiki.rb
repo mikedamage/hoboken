@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 
 configure do
-  %w(dm-core dm-is-versioned dm-timestamps wikitext article).each { |lib| require lib }
+  %w(pathname yaml haml sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
 
   ROOT = File.expand_path(File.dirname(__FILE__))
   config = begin
@@ -68,4 +68,39 @@ post '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
   @article.body = params[:body] if params[:body]
   haml :revert
+end
+
+get '/upload' do
+end
+
+post '/upload' do
+	
+end
+
+# Renders Sass stylesheets in the specified format.
+# Valid formats are: extended, expanded, compact, compressed
+get "/sass/:format/:file" do
+	content_type 'text/css', :charset => 'utf-8'
+	if params[:file] =~ /\.sass$/
+		@file = Pathname.new("./views/sass/" + params[:file])
+	else
+		@file = Pathname.new("./views/sass/" + (params[:file] + ".sass"))
+	end
+	
+	if @file.exist?
+		@format = params[:format].intern
+		@sass = Sass::Engine.new(@file.read, {:style => @format})
+		@sass.render
+	else
+		raise not_found, "Sass stylesheet not found."
+	end
+end
+
+
+# Takes JS files from the public directory and minifies them using the JSMin Rubygem
+get '/js/minify/:file' do
+	content_type 'text/javascript', :charset => 'utf-8'
+	@file = Pathname.new("./public/javascripts/" + params[:file])
+	@mini = JSMin.minify(@file.read)
+	@mini
 end

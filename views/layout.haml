@@ -2,7 +2,7 @@
 %html{:xmlns=>'http://www.w3.org/1999/xhtml', :'xml:lang'=>'en', :lang=>'en'}
   %head
     %title= "#{@article.title} &ndash; hoboken"
-    %link{:href=>'/main.css', :media=>'screen', :rel=>'Stylesheet', :type=>'text/css'}
+    %link{:href=>'/sass/compact/main', :media=>'screen', :rel=>'Stylesheet', :type=>'text/css'}
     %link{:rel=>'stylesheet', :href=>'/markitup/skins/markitup/style.css', :type=>'text/css', :media=>'screen'}
     %link{:rel=>'stylesheet', :href=>'/markitup/sets/wiki/style.css', :media=>'screen', :type=>'text/css'}
     %script{:type=>'text/javascript', :src=>'/javascripts/jquery.js', :charset=>'utf-8'}
@@ -22,6 +22,8 @@
               %a{:href => "/#{@article.slug}/edit"} edit
             %li
               %a{:href => "/#{@article.slug}/history"} history
+            %li
+              %a{:href => "#", :class => 'upload_link'} upload a file
         - if @recent
           %div
             %strong Recent items
@@ -30,6 +32,11 @@
               %li
                 %a{:href => article.slug}
                   = article.title
+        %div{:class => "upload"}
+          %form{:action => "/upload", :method => 'post'}
+            %label{:for => 'data'} Select a File
+            %input{:type => 'file', :name => 'data', :id => 'data'}
+            %button{:type => "button", :class => "submit"} Upload
       #content
         = yield
       #footer
