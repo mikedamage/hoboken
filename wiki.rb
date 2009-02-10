@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 
 configure do
-  %w(pathname yaml haml ostruct sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
+  %w(pathname yaml json haml ostruct sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
 
   ROOT = File.expand_path(File.dirname(__FILE__))
   config = begin
@@ -14,6 +14,8 @@ configure do
   DataMapper.setup(:default, config['db_connection'])
 
   PARSER = Wikitext::Parser.new(:external_link_class => 'external', :internal_link_prefix => nil)
+	
+	UPLOADS = File.join(ROOT, 'public/files')
 end
 
 helpers do
@@ -87,15 +89,22 @@ get '/upload' do
 end
 
 post '/upload' do
+	content_type 'text/html', :charset => "utf-8"
 	@upload = params[:data]
-	upload_dir = Pathname.new(File.join(ROOT, 'public/files'))
-	unless upload_dir.children.find {|file| file.basename.to_s == @upload[:filename]}
-		File.open(File.join(upload_dir.to_s, @upload[:filename]), "w") do |file|
-			file.write(@upload[:tempfile].readlines.join("\n"))
-		end
+	@file = File.join(UPLOADS, @upload[:filename])
+	@resp = Hash.new
+	if File.open(@file, "w") {|f| f.write(@upload[:tempfile].read) }
+		@response = "<strong>Upload Successful</strong>"
+		@response += '<p><img src="/images/icons/icon_accept.gif" width="16" height="16" alt="success"/>'
+		@response += @upload[:filename] + " (#{(File.size(@file) / 1000).to_s} kilobytes)</p>"
+		@response += '<a href="#" class="reset">Upload Another File</a><br/>'
 	else
-		
+		@response = "<strong>Upload Error</strong>"
+		@response += '<p><img src="/images/icons/icon_alert.gif" width="16" height="16" alt="error"/>'
+		@response += "The server encountered an error while uploading your file</p>"
+		@response += '<a href="#" class="reset">Try Again</a><br/>'
 	end
+	@response
 end
 
 # Renders Sass stylesheets in the specified format.
