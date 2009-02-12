@@ -1,7 +1,10 @@
 !!!
 %html{:xmlns=>'http://www.w3.org/1999/xhtml', :'xml:lang'=>'en', :lang=>'en'}
   %head
-    %title= "#{@article.title} &ndash; hoboken"
+    - if @article
+      %title= "#{@article.title} &ndash; hoboken"
+    - else
+      %title hoboken wiki
     %link{:href=>'/sass/compact/main', :media=>'screen', :rel=>'Stylesheet', :type=>'text/css'}
     %link{:rel=>'stylesheet', :href=>'/markitup/skins/markitup/style.css', :type=>'text/css', :media=>'screen'}
     %link{:rel=>'stylesheet', :href=>'/markitup/sets/wiki/style.css', :media=>'screen', :type=>'text/css'}
@@ -9,6 +12,7 @@
     %script{:type=>'text/javascript', :src=>'/markitup/jquery.markitup.js', :charset=>'utf-8'}
     %script{:type=>'text/javascript', :src=>'/markitup/sets/wiki/set.js', :charset=>'utf-8'}
     %script{:type=>'text/javascript', :src=>'/javascripts/jquery.form.js', :charset=>'utf-8'}
+    %script{:type=>'text/javascript', :src=>'/javascripts/jquery.ui.js', :charset=>'utf-8'}
     %script{:type=>'text/javascript', :src=>'/javascripts/application.js', :charset=>'utf-8'}
   %body
     #main
@@ -18,13 +22,19 @@
         %ul
           %li
             %a{:href => '/'} home
+          %li
+            %a{:href => "/upload"} upload a file
           - if @article
             %li
               %a{:href => "/#{@article.slug}/edit"} edit
             %li
               %a{:href => "/#{@article.slug}/history"} history
-            %li
-              %a{:href => "/upload"} upload a file
+            - if action[1] == "Edit"
+              %li
+                %a{:href => '#', :class => 'get_files'} file browser
+        %div{:id => 'file_browser', :style => 'display:none;'}
+          %strong File Browser
+          %span.info Drag files from this panel and drop them into the article's body. If they're images, we'll automatically embed them. Otherwise we'll just include a link.
         - if @recent
           %div
             %strong Recent items

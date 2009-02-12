@@ -4,28 +4,28 @@ $(document).ready(function() {
 	$("a[href^='http://']").addClass("external");
 	$("a[href$='.pdf']").addClass("pdf_link").removeClass("external");
 	
-	
-	$(".upload").hide();
-	
-	$('.upload_link').click(function() {
-		$('.upload').toggle('fast');
-	});
-	
-	$(".reset").live('click', function() {
-		$(".status").hide("fast");
-		$("#upload_form").show("fast");
-	});
-	
-	/*$('#upload_form').ajaxForm({
-		dataType: "xml",
-		beforeSubmit: function(data, form, opts) {
-			$(".working").show("normal");
-		},
-		success: function(json, status) {
-			$(".working").hide("fast");
-			$(".status").html(html);
-			$(".status").show("fast");
-		}
+	$(".get_files").click(function() {
+		// get JSON list of available files and fill file browser list
+		$.get("/files", {}, function(json) {
+			for(i=0;i<json.files.length;i++) {
+				$("#file_browser ul").append('<li class="'+json.files[i].ext+'">'+json.files[i].name+"</li>");
+			}
+		}, 'json');
 		
-	});*/
+		// make the list items draggable
+		$("#file_browser ul li").draggable({
+			helper: 'clone',
+			opacity: 0.7
+		});
+		
+		// make the textarea droppable - this is the tricky part.
+		$("textarea#body").droppable({
+			accept: "li",
+			drop: function() {
+				// $(this) is the textarea
+				// $(ui.draggable) is the list item being dropped
+			}
+		});
+	});
+	
 });

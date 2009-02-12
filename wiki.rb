@@ -83,7 +83,7 @@ get '/files' do
 	dir_children = Pathname.new(File.join(ROOT, 'public/files')).children
 	@files = []
 	dir_children.each do |file|
-		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :type => file.extname}
+		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname}
 	end
 	unless request.xhr?
 		haml :files
