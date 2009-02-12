@@ -80,7 +80,11 @@ end
 get '/files' do
 	@article = OpenStruct.new({ :title => "File Manager" })
 	@files = Pathname.new(File.join(ROOT, 'public/files')).children
-	haml :files
+	unless request.xhr?
+		haml :files
+	else
+		builder :files, :layout => nil
+	end
 end
 
 get '/upload' do
