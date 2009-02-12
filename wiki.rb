@@ -49,6 +49,7 @@ end
 get '/:slug' do
 	case params[:slug]
 		when "upload" then pass
+		when "upload_form" then pass
 		when "files" then pass
 	end
 	
@@ -79,17 +80,27 @@ end
 
 get '/files' do
 	@article = OpenStruct.new({ :title => "File Manager" })
-	@files = Pathname.new(File.join(ROOT, 'public/files')).children
+	dir_children = Pathname.new(File.join(ROOT, 'public/files')).children
+	@files = []
+	dir_children.each do |file|
+		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :type => file.extname}
+	end
 	unless request.xhr?
 		haml :files
 	else
-		builder :files, :layout => nil
+		content_type "text/json", :charset => "utf-8"
+		{"files" => @files}.to_json
 	end
 end
 
 get '/upload' do
 	@article = OpenStruct.new({ :title => "Upload a File" })
 	haml :upload
+end
+
+get '/upload_form' do
+	@article = OpenStruct.new({:title => "Upload Form"})
+	haml :upload_form, :layout => false
 end
 
 post '/upload' do
@@ -104,13 +115,14 @@ post '/upload' do
 				xml.li @upload[:filename]
 				xml.li((File.size(@file) / 1000.0).to_s + " Kilobytes")
 			end
+			xml.p "You can now add a link to this file or embed it (if it's an image) using this url: /files/#{@upload[:filename]}"
+			xml.a("Upload another file", "href" => "/upload_form", "target" => "upload_frame")
 		end
 	else
 		builder do |xml|
 			xml.strong "Error Uploading File"
-			xml.ul do
-				xml.li @upload[:filename]
-				xml.li "upload unsuccessful"
+			xml.p do
+				xml.a("Try Again", "href" => "/upload_form", "target" => "upload_frame")
 			end
 		end
 	end

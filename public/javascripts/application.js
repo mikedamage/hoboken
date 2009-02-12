@@ -1,6 +1,10 @@
 $(document).ready(function() {
 	$("textarea").markItUp(mySettings);
 	
+	$("a[href^='http://']").addClass("external");
+	$("a[href$='.pdf']").addClass("pdf_link").removeClass("external");
+	
+	
 	$(".upload").hide();
 	
 	$('.upload_link').click(function() {
@@ -12,7 +16,7 @@ $(document).ready(function() {
 		$("#upload_form").show("fast");
 	});
 	
-	$('#upload_form').ajaxForm({
+	/*$('#upload_form').ajaxForm({
 		dataType: "xml",
 		beforeSubmit: function(data, form, opts) {
 			$(".working").show("normal");
@@ -23,5 +27,5 @@ $(document).ready(function() {
 			$(".status").show("fast");
 		}
 		
-	});
+	});*/
 });
