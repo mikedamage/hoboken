@@ -13,16 +13,14 @@ $(document).ready(function() {
 	});
 	
 	$('#upload_form').ajaxForm({
-		target: "#upload_status",
-		dataType: "json",
+		dataType: "xml",
 		beforeSubmit: function(data, form, opts) {
-			$(".working").show("fast");
-			$("#upload_form").hide("fast");
+			$(".working").show("normal");
 		},
-		success: function(response, status) {
+		success: function(json, status) {
 			$(".working").hide("fast");
-			$("#upload_status .status").html(response);
-			$("#upload_status .status").show("fast");
+			$(".status").html(html);
+			$(".status").show("fast");
 		}
 		
 	});

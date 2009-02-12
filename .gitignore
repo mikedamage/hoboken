@@ -6,3 +6,4 @@ wiki.db
 ._*
 *~
 *.tmproj
+public/files/*

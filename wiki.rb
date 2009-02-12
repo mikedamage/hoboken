@@ -94,17 +94,22 @@ post '/upload' do
 	@file = File.join(UPLOADS, @upload[:filename])
 	@resp = Hash.new
 	if File.open(@file, "w") {|f| f.write(@upload[:tempfile].read) }
-		@response = "<strong>Upload Successful</strong>"
-		@response += '<p><img src="/images/icons/icon_accept.gif" width="16" height="16" alt="success"/>'
-		@response += @upload[:filename] + " (#{(File.size(@file) / 1000).to_s} kilobytes)</p>"
-		@response += '<a href="#" class="reset">Upload Another File</a><br/>'
+		builder do |xml|
+			xml.strong "Upload Complete"
+			xml.ul do
+				xml.li @upload[:filename]
+				xml.li((File.size(@file) / 1000.0).to_s + " Kilobytes")
+			end
+		end
 	else
-		@response = "<strong>Upload Error</strong>"
-		@response += '<p><img src="/images/icons/icon_alert.gif" width="16" height="16" alt="error"/>'
-		@response += "The server encountered an error while uploading your file</p>"
-		@response += '<a href="#" class="reset">Try Again</a><br/>'
+		builder do |xml|
+			xml.strong "Error Uploading File"
+			xml.ul do
+				xml.li @upload[:filename]
+				xml.li "upload unsuccessful"
+			end
+		end
 	end
-	@response
 end
 
 # Renders Sass stylesheets in the specified format.
