@@ -13,7 +13,7 @@ configure do
 
   DataMapper.setup(:default, config['db_connection'])
 
-  PARSER = Wikitext::Parser.new(:external_link_class => 'external', :internal_link_prefix => nil)
+  PARSER = Wikitext::Parser.new(:external_link_class => 'external', :internal_link_prefix => nil, :img_prefix => "/files/")
 	
 	UPLOADS = File.join(ROOT, 'public/files')
 end
@@ -28,6 +28,12 @@ helpers do
   def friendly_time(time)
     time.strftime("%a. %b. %d, %Y, %I:%M%p")
   end
+
+	def javascript(*args)
+		args.each do |script|
+			"<script type=\"text/javascript\" src=\"#{script}\" charset=\"utf-8\"></script>"
+		end
+	end
 end
 
 get '/' do
