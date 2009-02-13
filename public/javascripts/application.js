@@ -24,6 +24,16 @@ $(document).ready(function() {
 			drop: function() {
 				// $(this) is the textarea
 				// $(ui.draggable) is the list item being dropped
+				var text = $(this).val();
+				var dragClass = $(ui.draggable).attr('class');
+				var dragFile = $(ui.draggable).text();
+				var imgFormats = ["bmp", "gif", "jpg", "jpeg", "png"];
+				
+				if ( $.inArray(dragClass, imageFormats) != -1 ) {
+					var imgTag = '[[Image:'+dragFile+'|CAPTION]]';
+				} else {
+					
+				}
 			}
 		});
 	});

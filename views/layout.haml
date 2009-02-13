@@ -29,9 +29,10 @@
               %a{:href => "/#{@article.slug}/edit"} edit
             %li
               %a{:href => "/#{@article.slug}/history"} history
-            - if action[1] == "Edit"
-              %li
-                %a{:href => '#', :class => 'get_files'} file browser
+            - if action != nil
+              - if action[1] == "Edit"
+                %li
+                  %a{:href => '#', :class => 'get_files'} file browser
         %div{:id => 'file_browser', :style => 'display:none;'}
           %strong File Browser
           %span.info Drag files from this panel and drop them into the article's body. If they're images, we'll automatically embed them. Otherwise we'll just include a link.

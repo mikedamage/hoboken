@@ -33,7 +33,7 @@ end
 get '/' do
   @article = Article.first_or_create(:slug => 'Index')
   @recent = Article.all(:order => [:updated_at.desc], :limit => 10)
-  haml :show
+  haml :show, :locals => {:action => ["Viewing", "View"]}
 end
 
 post '/' do
@@ -55,7 +55,7 @@ get '/:slug' do
 	
   @article = Article.first(:slug => params[:slug])
   if @article
-    haml :show
+    haml :show, :locals => {:action => ["Viewing", "View"]}
   else
     @article = Article.new(:slug => params[:slug], :title => de_wikify(params[:slug]))
     haml :edit, :locals => {:action => ["Creating", "Create"]}
@@ -64,7 +64,7 @@ end
 
 get '/:slug/history' do
   @article = Article.first(:slug => params[:slug])
-  haml :history
+  haml :history, :locals => {:action => ["History"]}
 end
 
 get '/:slug/edit' do
@@ -75,7 +75,7 @@ end
 post '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
   @article.body = params[:body] if params[:body]
-  haml :revert
+  haml :revert, :locals => {:action => ["Reverting", "Revert"]}
 end
 
 get '/files' do
@@ -95,7 +95,7 @@ end
 
 get '/upload' do
 	@article = OpenStruct.new({ :title => "Upload a File" })
-	haml :upload
+	haml :upload, :locals => {:action => ["Uploading", "Upload"]}
 end
 
 get '/upload_form' do
