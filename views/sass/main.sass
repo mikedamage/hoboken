@@ -37,6 +37,48 @@ a.pdf_link
     button
       :margin-top 4px
 
+#file_browser
+  :position absolute
+  :top 20px
+  :right 0
+  :width 250px
+  :background #ABD7F1
+  :-moz-border-radius 6px
+  :-moz-border-radius-topright 0
+  :-moz-border-radius-bottomright 0
+  :padding 0
+  :color #333
+  h4
+    :margin 0 auto
+    :background #56B3D8
+    :-moz-border-radius-topleft 6px
+    :padding 4px 10px
+    :color #fff
+  p
+    :font-size 11px
+    :padding 4px 10px
+    :text-align justify
+    
+  ul
+    :list-style none
+    :padding 0 4px
+    li
+      :display block
+      :background #fff
+      :padding 4px
+      :padding-left 30px
+      :-moz-border-radius 4px
+      &.image_file
+        :background #fff url(/images/icons/image.gif) center left no-repeat
+        :background-position 4px
+      &.pdf_file
+        :background #fff url(/images/icons/file_acrobat.gif) center left no-repeat
+        :background-position 4px
+      &.other_file
+        :background #fff url(/images/icons/icon_attachment.gif) center left no-repeat
+        :background-position 4px
+    
+
 li
   :margin-top 3px
 

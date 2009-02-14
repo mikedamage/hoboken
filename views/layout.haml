@@ -33,9 +33,6 @@
               - if action[1] == "Edit"
                 %li
                   %a{:href => '#', :class => 'get_files'} file browser
-        %div{:id => 'file_browser', :style => 'display:none;'}
-          %strong File Browser
-          %span.info Drag files from this panel and drop them into the article's body. If they're images, we'll automatically embed them. Otherwise we'll just include a link.
         - if @recent
           %div
             %strong Recent items
@@ -46,6 +43,13 @@
                   = article.title
       #content
         = yield
+        %div{:id => 'file_browser', :style => 'display:none;'}
+          %h4
+            %a{:href => '#', :class => "hide"}
+              %img{:src=>'/images/icons/action_stop.gif', :width=>'16', :height=>'16', :border=>'0', :alt=>'close', :style=>'position:relative;top:2px;right:2px;'}
+            File Browser
+          %p.info Drag files from this panel and drop them into the article's body. If they're images, we'll automatically embed them. Otherwise we'll just include a link.
+          %ul.file_list
       #footer
         powered by
         %a{:href=>'http://github.com/jchupp/hoboken/tree/master'} hoboken

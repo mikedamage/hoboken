@@ -57,6 +57,7 @@ get '/:slug' do
 		when "upload" then pass
 		when "upload_form" then pass
 		when "files" then pass
+		when "json-test" then pass
 	end
 	
   @article = Article.first(:slug => params[:slug])
@@ -89,7 +90,7 @@ get '/files' do
 	dir_children = Pathname.new(File.join(ROOT, 'public/files')).children
 	@files = []
 	dir_children.each do |file|
-		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname}
+		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname.delete(".")}
 	end
 	unless request.xhr?
 		haml :files
@@ -97,6 +98,11 @@ get '/files' do
 		content_type "text/json", :charset => "utf-8"
 		{"files" => @files}.to_json
 	end
+end
+
+get '/json-test' do
+	content_type "text/json", :charset => "utf-8"
+	{"testkey" => "jambalaya"}.to_json
 end
 
 get '/upload' do
