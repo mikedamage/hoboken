@@ -10,6 +10,7 @@ $(document).ready(function() {
 	});
 	
 	fileBrowser = false;
+	imgFormats = ["bmp", "gif", "jpg", "jpeg", "png"];
 	
 	$(".get_files").click(function() {
 		if (fileBrowser) {
@@ -19,28 +20,28 @@ $(document).ready(function() {
 			// get JSON list of available files and fill file browser list
 			$.get("/files", {}, function(json) {
 				for(i=0;i<json.files.length;i++) {
-					$("#file_browser ul").append('<li name="'+json.files[i].ext+'">'+json.files[i].name+"</li>");
-					console.log("File: "+json.files[i].name+", Extension: "+json.files[i].ext);
+					var file = json.files[i];
+					$("#file_browser ul").append('<li class="'+file.class+'">'+file.name+"</li>");
+					console.log("File: "+file.name+", Extension: "+file.ext+", Class: "+file.class);
 				}
+				
 				// make the list items draggable
 				$("#file_browser ul li").draggable({
 					helper: 'clone',
-					opacity: 0.7
+					opacity: 0.7,
+					cursor: 'move',
+					revert: 'invalid'
 				});
 			}, 'json');
 		
-		
-		
-			// make the textarea droppable - this is the tricky part.
 			$("textarea#body").droppable({
 				accept: "li",
 				drop: function(event, ui) {
-					// $(this) is the textarea
-					// $(ui.draggable) is the list item being dropped
+					// $(this) == the textarea
+					// $(ui.draggable) == the list item being dropped
 					var text = $(this).val();
-					var dragClass = $(ui.draggable).attr('name');
+					var dragClass = $(ui.draggable).attr('class').split(' ');
 					var dragFile = $(ui.draggable).text();
-					var imgFormats = ["bmp", "gif", "jpg", "jpeg", "png"];
 				
 					if ( $.inArray(dragClass, imgFormats) != -1 ) {
 						var imgTag = '{{'+dragFile+'}}';
@@ -53,7 +54,7 @@ $(document).ready(function() {
 					}
 				}
 			});
-		
+			
 			$("#file_browser").show("slide", { direction: 'right', easing: 'easeOutBounce', duration: 1500});
 			fileBrowser = true;
 			return false;

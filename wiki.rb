@@ -90,7 +90,15 @@ get '/files' do
 	dir_children = Pathname.new(File.join(ROOT, 'public/files')).children
 	@files = []
 	dir_children.each do |file|
-		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname.delete(".")}
+		file_class = case file.extname.delete(".")
+		when "bmp" then "image_file"
+		when "gif" then "image_file"
+		when "jpg" then "image_file"
+		when "png" then "image_file"
+		when "pdf" then "pdf_file"
+		else "other_file"
+		end
+		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname.delete("."), :class => file_class}
 	end
 	unless request.xhr?
 		haml :files
