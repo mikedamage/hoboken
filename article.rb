@@ -2,11 +2,18 @@ class Article
   REP = '<+<<*>>+>'
 
   include DataMapper::Resource
-
+	
+	belongs_to :user
+	has_tags
+	
+	# TODO: make "created_by" property
+	# TODO: make an "editable by others" boolean
+	
   property :id,               Serial
   property :body,             Text
   property :title,            String
   property :slug,             String
+	property :user_id,					Integer						
 
   property :created_at,       DateTime
   property :updated_at,       DateTime

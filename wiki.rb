@@ -2,9 +2,10 @@ require 'rubygems'
 require 'sinatra'
 
 configure do
-  [	'pathname', 'yaml', 'json', 'haml', 'ostruct', 'sass', 
-		'dm-core', 'dm-is-versioned', 'dm-timestamps', 'dm-validations',
-		'wikitext', 'jsmin', 'article', 'user'
+  [
+		'pathname', 'yaml', 'json', 'haml', 'ostruct', 'sass', 
+		'dm-core', 'dm-is-versioned', 'dm-timestamps', 'dm-validations', 
+		'dm-aggregates', 'dm-tags', 'wikitext', 'jsmin', 'article', 'user'
 	].each { |lib| require lib }
 
 
@@ -16,10 +17,17 @@ configure do
   end
 
   DataMapper.setup(:default, config['db_connection'])
+	DataMapper.auto_upgrade!
 
-  PARSER = Wikitext::Parser.new(:external_link_class => 'external', :internal_link_prefix => nil, :img_prefix => "/files/")
+  PARSER = Wikitext::Parser.new({
+		:external_link_class => 'external',
+		:internal_link_prefix => nil, 
+		:img_prefix => "/files/"
+	})
 	
 	UPLOADS = File.join(ROOT, 'public/files')
+	
+	use Rack::Session::Cookie, :secret => 'b7c74f7fbde596ba87ac98ff4a9c8235d437ebce'
 end
 
 helpers do
@@ -39,6 +47,12 @@ helpers do
 		end
 	end
 end
+
+# Load routes from other files
+load File.join(ROOT, "routes/auth.rb")
+load File.join(ROOT, "routes/upload.rb")
+load File.join(ROOT, "routes/sass.rb")
+load File.join(ROOT, "routes/js.rb")
 
 get '/' do
   @article = Article.first_or_create(:slug => 'Index')
@@ -62,12 +76,14 @@ get '/:slug' do
 		when "upload_form" then pass
 		when "files" then pass
 		when "json-test" then pass
+		when "users" then pass
 	end
 	
   @article = Article.first(:slug => params[:slug])
   if @article
     haml :show, :locals => {:action => ["Viewing", "View"]}
   else
+		login_required
     @article = Article.new(:slug => params[:slug], :title => de_wikify(params[:slug]))
     haml :edit, :locals => {:action => ["Creating", "Create"]}
   end
@@ -89,93 +105,10 @@ post '/:slug/edit' do
   haml :revert, :locals => {:action => ["Reverting", "Revert"]}
 end
 
-get '/files' do
-	@article = OpenStruct.new({ :title => "File Manager" })
-	dir_children = Pathname.new(File.join(ROOT, 'public/files')).children
-	@files = []
-	dir_children.each do |file|
-		file_class = case file.extname.delete(".")
-		when "bmp" then "image_file"
-		when "gif" then "image_file"
-		when "jpg" then "image_file"
-		when "png" then "image_file"
-		when "pdf" then "pdf_file"
-		else "other_file"
-		end
-		@files << {:name => file.basename.to_s, :size => (file.size/1000.0).to_s + "KB", :ext => file.extname.delete("."), :class => file_class}
-	end
-	unless request.xhr?
-		haml :files
-	else
-		content_type "text/json", :charset => "utf-8"
-		{"files" => @files}.to_json
-	end
-end
-
 get '/json-test' do
 	content_type "text/json", :charset => "utf-8"
 	{"testkey" => "jambalaya"}.to_json
 end
 
-get '/upload' do
-	@article = OpenStruct.new({ :title => "Upload a File" })
-	haml :upload, :locals => {:action => ["Uploading", "Upload"]}
-end
-
-get '/upload_form' do
-	@article = OpenStruct.new({:title => "Upload Form"})
-	haml :upload_form, :layout => false
-end
-
-post '/upload' do
-	content_type 'text/html', :charset => "utf-8"
-	@upload = params[:data]
-	@file = File.join(UPLOADS, @upload[:filename])
-	@resp = Hash.new
-	if File.open(@file, "w") {|f| f.write(@upload[:tempfile].read) }
-		builder do |xml|
-			xml.strong "Upload Complete"
-			xml.ul do
-				xml.li @upload[:filename]
-				xml.li((File.size(@file) / 1000.0).to_s + " Kilobytes")
-			end
-			xml.p "You can now add a link to this file or embed it (if it's an image) using this url: /files/#{@upload[:filename]}"
-			xml.a("Upload another file", "href" => "/upload_form", "target" => "upload_frame")
-		end
-	else
-		builder do |xml|
-			xml.strong "Error Uploading File"
-			xml.p do
-				xml.a("Try Again", "href" => "/upload_form", "target" => "upload_frame")
-			end
-		end
-	end
-end
-
-# Renders Sass stylesheets in the specified format.
-# Valid formats are: extended, expanded, compact, compressed
-get "/sass/:format/:file" do
-	content_type 'text/css', :charset => 'utf-8'
-	if params[:file] =~ /\.sass$/
-		@file = Pathname.new("./views/sass/" + params[:file])
-	else
-		@file = Pathname.new("./views/sass/" + (params[:file] + ".sass"))
-	end
-	
-	if @file.exist?
-		@format = params[:format].intern
-		@sass = Sass::Engine.new(@file.read, {:style => @format})
-		@sass.render
-	else
-		raise not_found, "Sass stylesheet not found."
-	end
-end
 
 
-# Takes JS files from the public directory and minifies them using the JSMin Rubygem
-get '/js/minify/:file' do
-	content_type 'text/javascript', :charset => 'utf-8'
-	@file = Pathname.new("./public/javascripts/" + params[:file])
-	@mini = JSMin.minify(@file.read)
-	@mini
-end
