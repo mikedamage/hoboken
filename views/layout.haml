@@ -30,7 +30,7 @@
             %li
               %a{:href => "/#{@article.slug}/history"} history
             - if action != nil
-              - if action[1] == "Edit"
+              - if action[1] == "Edit" || action[1] == "Create"
                 %li
                   %a{:href => '#', :class => 'get_files'} file browser
         - if @recent

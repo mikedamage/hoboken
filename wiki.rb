@@ -2,7 +2,11 @@ require 'rubygems'
 require 'sinatra'
 
 configure do
-  %w(pathname yaml json haml ostruct sass dm-core dm-is-versioned dm-timestamps wikitext jsmin article).each { |lib| require lib }
+  [	'pathname', 'yaml', 'json', 'haml', 'ostruct', 'sass', 
+		'dm-core', 'dm-is-versioned', 'dm-timestamps', 'dm-validations',
+		'wikitext', 'jsmin', 'article', 'user'
+	].each { |lib| require lib }
+
 
   ROOT = File.expand_path(File.dirname(__FILE__))
   config = begin

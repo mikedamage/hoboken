@@ -43,7 +43,7 @@ $(document).ready(function() {
 					var dragClass = $(ui.draggable).attr('class').split(' ');
 					var dragFile = $(ui.draggable).text();
 				
-					if ( $.inArray(dragClass, imgFormats) != -1 ) {
+					if ( dragClass[0] == "image_file" ) {
 						var imgTag = '{{'+dragFile+'}}';
 						$(this).val(text + "\n" + imgTag);
 						$(ui.helper).hide();

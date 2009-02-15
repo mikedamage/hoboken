@@ -1,12 +1,13 @@
+!blue = #56B3D8
+!light_blue = #ABD7F1
+
 body
   :font-family Georgia, Helvetica, Arial
   :font-size 1em
 
-
 h1
   :font-size 2.2em
   :letter-spacing -2px
-
 
 strong
   :font-weight bold
@@ -20,12 +21,10 @@ a.pdf_link
   :width 80%
   :margin 10px auto
 
-
 #sidebar
   :float right
   :padding 0px
   :width 250px
-
   ul
     :list-style none
   .upload
@@ -42,15 +41,17 @@ a.pdf_link
   :top 20px
   :right 0
   :width 250px
-  :background #ABD7F1
-  :-moz-border-radius 6px
-  :-moz-border-radius-topright 0
-  :-moz-border-radius-bottomright 0
+  :background= !light_blue
+  :-moz-border-radius
+    :topright 0
+    :bottomright 0
+    :topleft 6px
+    :bottomleft 6px
   :padding 0
   :color #333
   h4
     :margin 0 auto
-    :background #56B3D8
+    :background= !blue
     :-moz-border-radius-topleft 6px
     :padding 4px 10px
     :color #fff
@@ -83,11 +84,9 @@ a.pdf_link
       &.other_file
         :background #fff url(/images/icons/attach.png) center left no-repeat
         :background-position 4px
-    
 
 li
   :margin-top 3px
-
 
 #content
   :margin-left 0px
@@ -112,29 +111,23 @@ iframe
   :text-align center
   :font-size .8em
 
-
 .history
   :padding 14px
   :background #eee
 
-
 .history_alt
   :padding 14px
-
 
 .history_title
   :font-size 1.2em
   :font-weight bold
 
-
 .history_body
   :padding-left 20px
-
 
 .history_date
   :font-size 0.4em
   :text-align right
-
 
 a.external
   :padding-right 11px
