@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	fileBrowser = false;
+	imgFormats = ["bmp", "gif", "jpg", "jpeg", "png"];
+	
 	$("textarea").markItUp(mySettings);
 	
 	$("a[href^='http://']").addClass("external");
@@ -9,8 +12,13 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	fileBrowser = false;
-	imgFormats = ["bmp", "gif", "jpg", "jpeg", "png"];
+	$("#preview_submit").click(function() {
+		$("form").children("input[name='preview']").val("1");
+	});
+	
+	$("button#cancel").click(function() {
+		
+	});
 	
 	$(".get_files").click(function() {
 		if (fileBrowser) {

@@ -1,0 +1,37 @@
+<form action="/" method="post">
+	<h1><%= action.first %> <%= @article.title %></h1>
+	
+	<% if params[:body] %>
+		<h3>Preview</h3>
+		<p>
+			<%= PARSER.parse(params[:body]) %>
+		</p>
+		<hr/>
+	<% end %>
+	
+	<p>
+		<label for="title">Title</label><br/>
+		<input type="text" id="title" name="title" value="<%= @article.title %>" />
+	</p>
+	
+	<p>
+		<label for="slug">Slug</label><br/>
+		<input type="text" id="slug" name="slug" value="<%= @article.slug %>" />
+	</p>
+	
+	<p>
+		<label for="body">Body</label><br/>
+		<textarea id="body" name="body" cols="70" rows="15">
+			<%= params[:body] || @article.body %>
+		</textarea>
+		<input type="hidden" name="preview" value="0" />
+	</p>
+	
+	<p>
+		<button type="button" id="cancel" onclick="window.location='/<%= @article.slug.gsub(/'/, "\'") if @article.id %>';return false;">Cancel</button>
+		&nbsp;&nbsp;
+		<input type="submit" value="Preview" id="preview_submit" />
+		&nbsp;&nbsp;
+		<input type="submit" value="<%= action.last %>" />
+	</p>
+</form>

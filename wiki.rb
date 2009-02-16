@@ -95,7 +95,7 @@ end
 
 get '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
-  haml :edit, :layout => "article", :locals => {:action => ["Editing", "Edit"]}
+  erb :edit, :layout => "article", :locals => {:action => ["Editing", "Edit"]}
 end
 
 post '/:slug/edit' do
