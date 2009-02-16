@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<% if @article && SITENAME %>
+		<title><%= @article.title %> // <%= SITENAME %></title>
+	<% else %>
+		<title>hoboken wiki</title>
+	<% end %>
+	
+	<link rel="stylesheet" href="/sass/compact/main" type="text/css" media="all" charset="utf-8" />
+	<link rel="stylesheet" href="/markitup/skins/markitup/style.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/markitup/sets/wiki/style.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/stylesheets/ui.all.css" type="text/css" media="screen" charset="utf-8" />
+	
+	<script type="text/javascript" src="/javascripts/jquery.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/javascripts/jquery.ui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/javascripts/jquery.form.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/markitup/jquery.markitup.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/markitup/sets/wiki/set.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/javascripts/application.js" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="main">
+		<div id="sidebar">
+			<h2>Navigation</h2>
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/upload">upload a file</a></li>
+				<li><a href="/<%= @article.slug %>/edit">edit</a></li>
+				<li><a href="/<%= @article.slug %>/history">history</a></li>
+				<% if action[1] == "Edit" || action[1] == "Create" %>
+					<li><a href="#" class="get_files">file browser</a></li>
+				<% end %>
+			</ul>
+			
+			<% if @recent %>
+			<h2>Recent Items</h2>
+			<ul>
+				<% @recent.each do |article| %>
+					<li><a href="/<%= article.slug %>"><%= article.title %></a></li>
+				<% end %>
+			</ul>
+			<% end %>
+		</div>
+		
+		<div id="content">
+			<%= yield %>
+			<div id="file_browser" style="display:none;">
+				<h4><a href="#" class="hide">File Browser</a></h4>
+				<p class="info">
+					Drag files from this panel and drop them into the article's body. If they're images, we'll automatically embed them. Otherwise we'll just include a link.
+				</p>
+				<ul class="file_list">
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		powered by <a href="http://github.com/jchupp/hoboken/tree/master">hoboken</a>
+	</div>
+</body>
+</html>

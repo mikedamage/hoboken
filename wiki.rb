@@ -26,6 +26,7 @@ configure do
 	})
 	
 	UPLOADS = File.join(ROOT, 'public/files')
+	SITENAME = config['sitename']
 	
 	use Rack::Session::Cookie, :secret => 'b7c74f7fbde596ba87ac98ff4a9c8235d437ebce'
 end
@@ -40,11 +41,9 @@ helpers do
   def friendly_time(time)
     time.strftime("%a. %b. %d, %Y, %I:%M%p")
   end
-
-	def javascript(*args)
-		args.each do |script|
-			"<script type=\"text/javascript\" src=\"#{script}\" charset=\"utf-8\"></script>"
-		end
+	
+	def link_to(text, url)
+		%{<a href="#{url}">#{text}</a>}
 	end
 end
 
@@ -57,7 +56,7 @@ load File.join(ROOT, "routes/js.rb")
 get '/' do
   @article = Article.first_or_create(:slug => 'Index')
   @recent = Article.all(:order => [:updated_at.desc], :limit => 10)
-  haml :show, :locals => {:action => ["Viewing", "View"]}
+  erb :show, :layout => :article, :locals => {:action => ["Viewing", "View"]}
 end
 
 post '/' do
@@ -66,7 +65,7 @@ post '/' do
     @article.update_attributes(:title => params[:title], :body => params[:body], :slug => params[:slug])
     redirect "/#{params[:slug].gsub(/^index$/i, '')}"
   else
-    haml :edit, :locals => {:action => ["Editing", "Edit"]}
+    haml :edit, :layout => :article, :locals => {:action => ["Editing", "Edit"]}
   end
 end
 
@@ -81,28 +80,28 @@ get '/:slug' do
 	
   @article = Article.first(:slug => params[:slug])
   if @article
-    haml :show, :locals => {:action => ["Viewing", "View"]}
+    erb :show, :layout => :article, :locals => {:action => ["Viewing", "View"]}
   else
 		login_required
     @article = Article.new(:slug => params[:slug], :title => de_wikify(params[:slug]))
-    haml :edit, :locals => {:action => ["Creating", "Create"]}
+    haml :edit, :layout => :article, :locals => {:action => ["Creating", "Create"]}
   end
 end
 
 get '/:slug/history' do
   @article = Article.first(:slug => params[:slug])
-  haml :history, :locals => {:action => ["History"]}
+  haml :history, :layout => "article", :locals => {:action => ["History"]}
 end
 
 get '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
-  haml :edit, :locals => {:action => ["Editing", "Edit"]}
+  haml :edit, :layout => "article", :locals => {:action => ["Editing", "Edit"]}
 end
 
 post '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
   @article.body = params[:body] if params[:body]
-  haml :revert, :locals => {:action => ["Reverting", "Revert"]}
+  haml :revert, :layout => "article", :locals => {:action => ["Reverting", "Revert"]}
 end
 
 get '/json-test' do
