@@ -1,15 +1,18 @@
 # Hoboken
-Leverages the ruby framework sinatra to provide a very(!) basic wiki.
+Forked and spooned by Mike Green
+
 
 ## Required Gems
 * dm-core
 * dm-is-versioned
 * dm-timestamps
+* dm-aggregates
+* dm-tags
 * haml
 * sinatra
 * wikitext
 
-dm-is-versioned and dm-timestamps are part of dm-more.  You'll need at least 0.9.7.  You also need a dm compatible database adapter (sqlite3, mysql, etc.).  If you want to use something other than sqlite3, you'll need to edit init.rb until a proper config file system is added.
+dm-is-versioned, dm-aggregates, dm-tags and dm-timestamps are part of dm-more.  You'll need at least 0.9.7.  You also need a dm compatible database adapter (sqlite3, mysql, etc.).  If you want to use something other than sqlite3, you'll need to edit init.rb until a proper config file system is added.
 
 You can install wikitext from http://github.com/stephenjudkins/ruby-wikitext/tree/master
 
