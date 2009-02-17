@@ -90,7 +90,7 @@ end
 
 get '/:slug/history' do
   @article = Article.first(:slug => params[:slug])
-  haml :history, :layout => :article, :locals => {:action => ["History"]}
+  erb :history, :layout => :article, :locals => {:action => ["History"]}
 end
 
 get '/:slug/edit' do
