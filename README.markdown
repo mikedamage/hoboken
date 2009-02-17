@@ -8,6 +8,7 @@ _Hoboken: Urban Renewal_ is my attempt to customize Hoboken wiki to fit my needs
 * file upload interface
 * drag-n-drop embedding of links & images in articles
 * [MarkItUp](http://markitup.jaysalvat.com/) wikitext editor
+* templates in ERB instead of Haml _(just my personal preference)_
 * user authentication _(incomplete)_
 * support for tagging, thanks to dm-tags _(incomplete)_
 
@@ -28,15 +29,12 @@ You can install wikitext from [http://github.com/stephenjudkins/ruby-wikitext/tr
 ## How To:
 
 First copy (or rename) <code>config.yml.template</code> to <code>config.yml</code> in the app root. If you want to use something besides the default datamapper connection string specified in the config you can change it as you wish. You should then run
-<pre>
-    $ rake migrate
-</pre>
+
+	$ rake migrate
 
 To create you're database.  Now you're ready to run Sinatra's development server:
 
-<pre>
-    $ ruby wiki.rb
-</pre>
+	$ ruby wiki.rb
 
 then visit: <code>http://0.0.0.0:4567/</code> or visit <code>http://0.0.0.0:4567/Whatever</code> to start creating a page named "Whatever".
 

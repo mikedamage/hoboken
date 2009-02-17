@@ -1,0 +1,18 @@
+<h1>Versions of <%= @article.title %></h1>
+
+<p>
+	<%= link_to "back to #{@article.title}", "/#{@article.slug}" %>
+	<% @article.versions.reverse.each_with_index do |version, i| %>
+		<div class="history<%= i % 2 == 0 ? '_alt' : '' %>">
+			<h2 class="history_title"><%= version.title %></h2>
+			<div class="history_body">
+				<%= PARSER.parse(version.body) %>
+			</div>
+			<div class="history_date"><%= friendly_time(version.updated_at) %></div>
+			<form action="/<%= @article.slug %>/edit" method="post">
+				<input type="hidden" name="body" value="<%= version.body %>" />
+				<input type="submit" value="Restore" />
+			</form>
+		</div>
+	<% end %>
+</p>

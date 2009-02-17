@@ -84,24 +84,24 @@ get '/:slug' do
   else
 		login_required
     @article = Article.new(:slug => params[:slug], :title => de_wikify(params[:slug]))
-    haml :edit, :layout => :article, :locals => {:action => ["Creating", "Create"]}
+    erb :edit, :layout => :article, :locals => {:action => ["Creating", "Create"]}
   end
 end
 
 get '/:slug/history' do
   @article = Article.first(:slug => params[:slug])
-  haml :history, :layout => "article", :locals => {:action => ["History"]}
+  haml :history, :layout => :article, :locals => {:action => ["History"]}
 end
 
 get '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
-  erb :edit, :layout => "article", :locals => {:action => ["Editing", "Edit"]}
+  erb :edit, :layout => :article, :locals => {:action => ["Editing", "Edit"]}
 end
 
 post '/:slug/edit' do
   @article = Article.first(:slug => params[:slug])
   @article.body = params[:body] if params[:body]
-  haml :revert, :layout => "article", :locals => {:action => ["Reverting", "Revert"]}
+  haml :revert, :layout => :article, :locals => {:action => ["Reverting", "Revert"]}
 end
 
 get '/json-test' do
