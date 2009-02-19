@@ -1,7 +1,7 @@
 require 'spec/rake/spectask'
 
 task :environment do
-  %w(dm-core dm-is-versioned dm-timestamps wikitext article).each { |lib| require lib }
+  %w(dm-core dm-is-versioned dm-aggregates dm-timestamps dm-tags dm-validations wikitext article user).each { |lib| require lib }
 
   ROOT = File.expand_path(File.dirname(__FILE__))
   config = begin
@@ -29,13 +29,20 @@ namespace :migrate do
 	task :user => [:environment] do
 		User.auto_migrate!
 		if User.count(:role => "admin") == 0
-			print "Pick a name for the root user: [admin] "
-			username = $stdin.gets.chomp
-			print "\nPassword: "
+			puts "Creating admin user..."
+			puts "Enter your email address: "
+			email = $stdin.gets.chomp
+			puts "Password: "
 			pass = $stdin.gets.chomp
-			print "\nConfirm Password: "
+			puts "Confirm Password: "
 			pass_confirm = $stdin.gets.chomp
-		else
+			
+			user = User.new(:email => email, :password => pass, :password_confirmation => pass_confirm)
+			if user.save
+				puts "User #{email} created!"
+			else
+				puts "Error creating user!"
+			end
 		end
 	end
 end

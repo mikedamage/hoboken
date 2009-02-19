@@ -17,7 +17,7 @@ configure do
   end
 
   DataMapper.setup(:default, config['db_connection'])
-	DataMapper.auto_upgrade!
+	# DataMapper.auto_upgrade!
 
   PARSER = Wikitext::Parser.new({
 		:external_link_class => 'external',
@@ -74,7 +74,7 @@ get '/:slug' do
 		when "upload" then pass
 		when "upload_form" then pass
 		when "files" then pass
-		when "json-test" then pass
+		# when "json-test" then pass
 		when "users" then pass
 	end
 	
@@ -103,11 +103,3 @@ post '/:slug/edit' do
   @article.body = params[:body] if params[:body]
   haml :revert, :layout => :article, :locals => {:action => ["Reverting", "Revert"]}
 end
-
-get '/json-test' do
-	content_type "text/json", :charset => "utf-8"
-	{"testkey" => "jambalaya"}.to_json
-end
-
-
-
