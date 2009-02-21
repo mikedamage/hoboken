@@ -45,6 +45,30 @@ helpers do
 	def link_to(text, url)
 		%{<a href="#{url}">#{text}</a>}
 	end
+	
+	# Authentication Methods
+	def login_required
+	  if session[:user]
+	    return true
+	  else
+	    session[:return_to] = request.fullpath
+	    redirect '/login'
+	    return false 
+	  end
+	end
+
+	def current_user
+	  User.first(session[:user])
+	end
+
+	def redirect_to_stored
+	  if return_to == session[:return_to]
+	    session[:return_to] = nil
+	    redirect return_to
+	  else
+	    redirect '/'
+	  end
+	end
 end
 
 # Load routes from other files

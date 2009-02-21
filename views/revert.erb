@@ -1,0 +1,25 @@
+<h1>Reverting <%= @article.title %></h1>
+
+<form action="/" method="post">
+	<p>
+		<label for="title">Title</label><br/>
+		<input type="text" name="title" id="title" value="<%= @article.title %>"/>
+	</p>
+	<p>
+		<label for="slug">Slug</label><br/>
+		<input type="text" name="slug" id="slug" value="<%= @article.slug %>"/>
+	</p>
+	<p>
+		<label for="current_body">Current Body</label><br/>
+		<textarea cols="70" rows="10" name="current_body" id="current_body">
+			<%= @article.original_values[:body] %>
+		</textarea>
+	</p>
+	<p>
+		<label for="body">Desired Body</label><br/>
+		<textarea cols="70" rows="10" name="body" id="body">
+			<%= @article.body %>
+		</textarea>
+	</p>
+	<p><input type="submit" value="Save"/></p>
+</form>
