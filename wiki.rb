@@ -62,8 +62,8 @@ helpers do
 	end
 
 	def redirect_to_stored
-	  if return_to == session[:return_to]
-	    session[:return_to] = nil
+	  if return_to = session[:return_to]
+	    #session[:return_to] = nil
 	    redirect return_to
 	  else
 	    redirect '/'

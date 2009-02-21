@@ -1,5 +1,28 @@
 <h1><%= @article.title %></h1>
 
+<table id="article_info">
+	<tr>
+		<th>Created by</th>
+		<td><%= @article.user.email %></td>
+	</tr>
+	<tr>
+		<th>Last modified</th>
+		<td><%= @article.updated_at.strftime("%m-%d-%Y %r") %></td>
+	</tr>
+	<tr>
+		<th>Tags</th>
+		<td>
+			<% @article.tags.each_with_index do |tag, index| %>
+				<% if index == (@article.tags.size - 1) %>
+					<a href="/tag/<%= tag.id %>"><%= tag.name %></a>
+				<% else %>
+					<a href="/tag/<%= tag.id %>"><%= tag.name %></a>,
+				<% end %>
+			<% end %>
+		</td>
+	</tr>
+</table>
+
 <div id="article_body">
 	<%= PARSER.parse(@article.auto_link) %>
 </div>

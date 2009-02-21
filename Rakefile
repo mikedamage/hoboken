@@ -19,15 +19,21 @@ task :spec do
 end
 
 namespace :migrate do
-	desc 'migrate the article table'
+	desc "migrate articles and users tables"
+	task :all => [:environment, :automigrate, :article, :user]
+	
+	desc 'create user, article, versions, and tags tables'
+	task :automigrate => [:environment] do
+		DataMapper.auto_migrate!
+	end
+	
+	desc 'add a first article to Articles table'
 	task :article => [:environment] do 
-	  Article.auto_migrate!
 	  Article.create(:slug => "Index", :title => "Index", :body => "Welcome to hoboken.  You can edit this content")
 	end
 	
-	desc 'migrate the user table'
+	desc 'create admin user'
 	task :user => [:environment] do
-		User.auto_migrate!
 		if User.count(:role => "admin") == 0
 			puts "Creating admin user..."
 			puts "Enter your email address: "
@@ -37,12 +43,40 @@ namespace :migrate do
 			puts "Confirm Password: "
 			pass_confirm = $stdin.gets.chomp
 			
-			user = User.new(:email => email, :password => pass, :password_confirmation => pass_confirm)
+			user = User.new(:email => email, :password => pass, :password_confirmation => pass_confirm, :role => "admin")
 			if user.save
 				puts "User #{email} created!"
 			else
 				puts "Error creating user!"
 			end
+		end
+	end
+end
+
+namespace :user do
+	desc "create a new wiki user"
+	task :new => [:environment] do
+		$stdout.puts "Creating a new wiki user..."
+		$stdout.puts "Enter email address: "
+		email = $stdin.gets.chomp
+		$stdout.puts "Enter password: "
+		pass = $stdin.gets.chomp
+		$stdout.puts "Confirm password: "
+		confirm_pass = $stdin.gets.chomp
+		$stdout.puts "Desired role:"
+		$stdout.puts "[1] admin"
+		$stdout.puts "[2] user"
+		role = case $stdin.gets
+		when "1" then "admin"
+		when "2" then "user"
+		else "user"
+		end
+		
+		user = User.new(:email => email, :password => pass, :password_confirmation => confirm_pass, :role => role)
+		if user.save
+			puts "User #{email} created!"
+		else
+			puts "Error creating user!"
 		end
 	end
 end

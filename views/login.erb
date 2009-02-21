@@ -1,0 +1,15 @@
+<h1>Login to <%= SITENAME %></h1>
+
+<form action="/users/login" method="post">
+	<p>
+		<label for="user_email">Email</label><br/>
+		<input id="user_email" name="email" size=30 type="text" />
+	</p>
+	<p>
+		<label for="user_password">Password</label><br/>
+		<input id="user_password" name="password" size=30 type="password" />
+	</p>
+	<p>
+		<input value="Login" type="submit" />
+	</p>
+</form>

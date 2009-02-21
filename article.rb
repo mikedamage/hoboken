@@ -4,7 +4,7 @@ class Article
   include DataMapper::Resource
 	
 	belongs_to :user
-	has_tags
+	has_tags_on :tags
 	
 	# TODO: make "created_by" property
 	# TODO: make an "editable by others" boolean

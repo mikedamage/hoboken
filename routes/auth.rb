@@ -31,12 +31,12 @@ end
 
 get '/users/logout' do
 	session[:user] = nil
-	@message = "in case it weren't obvious, you've logged out"
+	@message = "in case it wasn't obvious, you've been logged out"
 	redirect '/'
 end
 
 get '/users/new' do
-  erb :new_user
+  erb :signup
 end
 
 post '/users/new' do

@@ -30,17 +30,23 @@ You can install wikitext from [http://github.com/stephenjudkins/ruby-wikitext/tr
 
 First copy (or rename) <code>config.yml.template</code> to <code>config.yml</code> in the app root. If you want to use something besides the default datamapper connection string specified in the config you can change it as you wish. You should then run
 
-	$ rake migrate
+	$ rake migrate:all
 
-To create you're database.  Now you're ready to run Sinatra's development server:
+To create the database and your username and password. Now you're ready to run Sinatra's development server:
 
 	$ ruby wiki.rb
 
 then visit: <code>http://0.0.0.0:4567/</code> or visit <code>http://0.0.0.0:4567/Whatever</code> to start creating a page named "Whatever".
 
-Standard WikiText applies per the wikitext gem. Versioning is active, though complex diffs on versions aren't yet available and merging is still rudimentary.
+Standard WikiText applies as per the wikitext gem. Versioning is active, though complex diffs on versions aren't yet available and merging is still rudimentary.
 
 When rendering a wiki page, items that exist in the database as other pages will be automatically linked to.
+
+If you don't want just anybody to be able to register for a username and password (recommended), then comment out the signup action in @routes/auth.rb@. With that action disabled, the only way to create a new user is to use the included Rake task like so:
+
+	$ rake user:new
+
+and follow the prompts for the user's email address and password.
 
 ## NOTE:
 
@@ -53,5 +59,4 @@ then you should specify a version of data\_objects (in wiki.rb underneath "requi
     gem 'data_objects', '0.9.7'
 
 ## TODO:
-* authentication
 * diffs on versions
