@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>mikedamage/hoboken @ GitHub</title>
+	
+	<style type="text/css">
+		body {
+  		margin-top: 1.0em;
+  		background-color: #dcf2ff;
+		  font-family: "helvetica"; 
+  		color: #000000;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+		h1 { font-size: 3.8em; color: #230d00; margin-bottom: 3px; }
+		h1 .small { font-size: 0.4em; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #230d00; }
+    h3 { text-align: center; color: #230d00; }
+    a { color: #230d00; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+		pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	</style>
+	
+</head>
+
+<body>
+  <a href="http://github.com/mikedamage/hoboken"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  
+  <div id="container">
+
+    <div class="download">
+      <a href="http://github.com/mikedamage/hoboken/zipball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+      <a href="http://github.com/mikedamage/hoboken/tarball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    </div>
+      
+    <h1><a href="http://github.com/mikedamage/hoboken">Hoboken: Urban Renewal</a> 
+      <span class="small">by <a href="http://github.com/mikedamage">mikedamage</a></small></h1>
+
+    <div class="description">
+      a simple wiki powered by sinatra, lovingly forked from <a href="http://github.com/jchupp/hoboken/tree">jchupp/hoboken</a> and spooned by <a href="http://mikedamage.github.com/">Mike Green</a>
+    </div>
+
+    <p><p><strong>Hoboken: Urban Renewal</strong> is my attempt to customize Hoboken wiki to fit my needs, much like the yuppies did with the real Hoboken, NJ in the late 1990’s. Hoboken itself is a really awesome, very simple wiki by Jeff Chupp. This fork has added functionality that includes:</p>
+
+<ul>
+<li>file upload interface</li>
+<li>drag-n-drop embedding of links &#38; images in articles</li>
+<li><a href="http://markitup.jaysalvat.com/">MarkItUp</a> wikitext editor</li>
+<li>templates in <span class="caps">ERB</span> instead of Haml <em>(just my personal preference)</em></li>
+<li>user authentication <em>(incomplete)</em></li>
+<li>support for tagging, thanks to dm-tags <em>(incomplete)</em></li>
+</ul>
+</p><h2>Dependencies</h2>
+<p><ul>
+	<li>dm-core</li>
+	<li>dm-more
+	<ul>
+	<li>dm-is-versioned</li>
+	<li>dm-timestamps</li>
+	<li>dm-aggregates</li>
+	<li>dm-tags</li>
+	<li>dm-validations</li>
+	</ul>
+	</li>
+	<li>haml</li>
+	<li>sinatra</li>
+	<li>wikitext</li>
+</ul>
+<p>dm-is-versioned, dm-aggregates, dm-tags and dm-timestamps are part of <strong>dm-more</strong>.  You&#8217;ll need at least 0.9.7.  You also need a dm compatible database adapter (sqlite3, mysql, etc).</p>
+<p>You can install wikitext from <a href="http://github.com/stephenjudkins/ruby-wikitext/tree/master">http://github.com/stephenjudkins/ruby-wikitext/tree/master</a>.</p>
+</p>
+<h2>Install</h2>
+<p><p>First copy (or rename) <code>config.yml.template</code> to <code>config.yml</code> in the app root. If you want to use something besides the default datamapper connection string specified in the config you can change it as you wish. You should then run:</p>
+<pre>
+$ rake migrate:all
+</pre>
+<p>
+To create the database and your username and password. Now you&#8217;re ready to run Sinatra&#8217;s development server:
+</p>
+<pre>
+$ ruby wiki.rb
+</pre>
+<p>
+then visit: <code>http://0.0.0.0:4567/</code> or visit <code>http://0.0.0.0:4567/Whatever</code> to start creating a page named &#8220;Whatever&#8221;.</p>
+<p>Standard WikiText applies as per the wikitext gem. Versioning is active, though complex diffs on versions aren&#8217;t yet available and merging is still rudimentary.</p>
+<p>When rendering a wiki page, items that exist in the database as other pages will be automatically linked to.</p>
+
+<p>
+If you don&#8217;t want just anybody to be able to register for a username and password (recommended), then comment out the signup action in <code>routes/auth.rb</code>. With that action disabled, the only way to create a new user is to use the included Rake task like so:</p>
+<pre>
+    $ rake user:new
+</pre>
+<p>
+and follow the prompts for the user&#8217;s email address and password.
+</p>
+
+</p>
+<h2>License</h2>
+<p><strong>MIT License</strong>
+<p>
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+</p>
+<p><strong>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+</strong>
+</p></p>
+<h2>Authors</h2>
+<p>Jeffrey Chupp (jchupp@politics4all.com)<br/>Mike Green (mike.is.green@gmail.com)<br/><br/>      </p>
+<h2>Contact</h2>
+<p>Mike Green (mike.is.green@gmail.com)<br/>      </p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/mikedamage/hoboken/zipball/master">zip</a> or
+      <a href="http://github.com/mikedamage/hoboken/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/mikedamage/hoboken</pre>
+    </p>
+      
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/mikedamage/hoboken">mikedamage/hoboken</a>
+    </div>
+    
+  </div>
+
+  <script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7133074-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
