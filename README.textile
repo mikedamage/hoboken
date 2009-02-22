@@ -1,12 +1,12 @@
 h1. Hoboken: Urban Renewal
 
-Based on _Hoboken_ by Jeff Chupp,  
+|*Based On:*||"Hoboken":http://github.com/jchupp/hoboken/tree by Jeff Chupp|
+|*Forked and Spooned by:*||Mike Green "mike.is.green@gmail.com":mailto:mike.is.green@gmail.com|
 
-Forked and spooned by Mike Green
 
 h2. About
 
-_Hoboken: Urban Renewal_ is my attempt to customize Hoboken wiki to fit my needs, much like the yuppies did with the real Hoboken, NJ in the late 1990's. Hoboken itself is a really awesome, very simple wiki by "Jeff Chupp":http://semanticart.com. This fork has added functionality that includes:
+*Hoboken: Urban Renewal* is my attempt to customize Hoboken wiki to fit my needs, much like the yuppies did with the real Hoboken, NJ in the late 1990's. Hoboken itself is a really awesome, very simple wiki by "Jeff Chupp":http://semanticart.com. This fork has added functionality that includes:
 
 * file upload interface
 * drag-n-drop embedding of links & images in articles
