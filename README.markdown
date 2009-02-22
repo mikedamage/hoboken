@@ -14,10 +14,12 @@ _Hoboken: Urban Renewal_ is my attempt to customize Hoboken wiki to fit my needs
 
 ## Required Gems
 * dm-core
-* dm-is-versioned
-* dm-timestamps
-* dm-aggregates
-* dm-tags
+* dm-more
+	* dm-is-versioned
+	* dm-timestamps
+	* dm-aggregates
+	* dm-tags
+	* dm-validations
 * haml
 * sinatra
 * wikitext

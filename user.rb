@@ -7,6 +7,7 @@ class User
 
   property :id, Serial, :protected => true
   property :email, String, :key => true, :nullable => false, :length => (5..40), :unique => true, :format => :email_address
+	property :screen_name, String, :nullable => true, :length => (3..30), :unique => true
   property :hashed_password, String
   property :salt, String, :protected => true, :nullable => false
 	property :role, String, :default => "user"

@@ -2,15 +2,16 @@
 
 <table id="article_info">
 	<tr>
-		<th>Created by</th>
-		<td><%= @article.user.email %></td>
+		<th>Created by:</th>
+		<td><%= @user.email %></td>
 	</tr>
 	<tr>
-		<th>Last modified</th>
+		<th>Last modified:</th>
 		<td><%= @article.updated_at.strftime("%m-%d-%Y %r") %></td>
 	</tr>
+	<% if @article.tags.size > 0 %>
 	<tr>
-		<th>Tags</th>
+		<th>Tags:</th>
 		<td>
 			<% @article.tags.each_with_index do |tag, index| %>
 				<% if index == (@article.tags.size - 1) %>
@@ -21,6 +22,7 @@
 			<% end %>
 		</td>
 	</tr>
+	<% end %>
 </table>
 
 <div id="article_body">

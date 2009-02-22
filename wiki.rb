@@ -80,6 +80,7 @@ load File.join(ROOT, "routes/js.rb")
 get '/' do
   @article = Article.first_or_create(:slug => 'Index')
   @recent = Article.all(:order => [:updated_at.desc], :limit => 10)
+	@user = User.first(:id => @article.user_id)
   erb :show, :layout => :article, :locals => {:action => ["Viewing", "View"]}
 end
 
