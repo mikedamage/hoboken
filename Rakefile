@@ -29,7 +29,7 @@ namespace :migrate do
 	
 	desc 'add a first article to Articles table'
 	task :article => [:environment] do 
-	  Article.create(:slug => "Index", :title => "Index", :body => "Welcome to hoboken.  You can edit this content", :user_id => "1")
+	  Article.create(:slug => "Index", :title => "Index", :body => "Welcome to hoboken.  You can edit this content", :user_id => 1)
 	end
 	
 	desc 'create admin user'

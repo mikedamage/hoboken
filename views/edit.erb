@@ -28,7 +28,7 @@
 	</p>
 	
 	<p>
-		<button type="button" id="cancel" onclick="window.location='/<%= @article.slug.gsub(/'/, "\'") if @article.id %>';return false;">Cancel</button>
+		<button type="button" id="cancel" class="ui-state-default ui-corner-all" onclick="window.location='/<%= @article.slug.gsub(/'/, "\'") if @article.id %>';return false;">Cancel</button>
 		&nbsp;&nbsp;
 		<input type="submit" value="Preview" id="preview_submit" />
 		&nbsp;&nbsp;

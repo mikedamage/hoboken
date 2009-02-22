@@ -13,7 +13,7 @@ class Article
   property :body,             Text
   property :title,            String
   property :slug,             String
-	property :user_id,					Integer						
+	#property :user_id,					Integer						
 
   property :created_at,       DateTime
   property :updated_at,       DateTime

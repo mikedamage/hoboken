@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/sass/compact/main" type="text/css" media="all" charset="utf-8" />
 	<link rel="stylesheet" href="/markitup/skins/markitup/style.css" type="text/css" media="screen" charset="utf-8" />
 	<link rel="stylesheet" href="/markitup/sets/wiki/style.css" type="text/css" media="screen" charset="utf-8" />
-	<link rel="stylesheet" href="/stylesheets/ui.all.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/stylesheets/themes/smoothness/ui.all.css" type="text/css" media="screen" charset="utf-8" />
 	
 	<script type="text/javascript" src="/javascripts/jquery.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/javascripts/jquery.ui.js" charset="utf-8"></script>
@@ -48,7 +48,12 @@
 		</div>
 		
 		<div id="content">
+			<% if @message %>
+				<p class="message"><%= @message %></p>
+			<% end %>
+			
 			<%= yield %>
+			
 			<div id="file_browser" style="display:none;">
 				<h4><a href="#" class="hide">File Browser</a></h4>
 				<p class="info">
