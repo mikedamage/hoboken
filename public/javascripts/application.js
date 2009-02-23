@@ -7,6 +7,15 @@ $(document).ready(function() {
 	$("a[href^='http://']").addClass("external");
 	$("a[href$='.pdf']").addClass("pdf_link").removeClass("external");
 	
+	$("button").hover(function() {
+		$(this).addClass("ui-state-hover");
+	}, function() {
+		$(this).removeClass("ui-state-hover");
+	})
+	.click(function() {
+			this.addClass("ui-state-active");
+	});
+	
 	$("a.hide").live('click', function() {
 		$("#file_browser").hide("slide", {direction: 'right', duration: 1500, easing: 'easeOutBounce'});
 		return false;
@@ -29,7 +38,7 @@ $(document).ready(function() {
 			$.get("/files", {}, function(json) {
 				for(i=0;i<json.files.length;i++) {
 					var file = json.files[i];
-					$("#file_browser ul").append('<li class="'+file.class+'">'+file.name+"</li>");
+					$("#file_browser ul").append('<li class="'+file.class+' ui-corner-all">'+file.name+"</li>");
 					console.log("File: "+file.name+", Extension: "+file.ext+", Class: "+file.class);
 				}
 				

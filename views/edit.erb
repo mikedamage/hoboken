@@ -30,8 +30,8 @@
 	<p>
 		<button type="button" id="cancel" class="ui-state-default ui-corner-all" onclick="window.location='/<%= @article.slug.gsub(/'/, "\'") if @article.id %>';return false;">Cancel</button>
 		&nbsp;&nbsp;
-		<input type="submit" value="Preview" id="preview_submit" />
+		<button type="submit" id="preview_submit" class="ui-state-default ui-corner-all">Preview</button>
 		&nbsp;&nbsp;
-		<input type="submit" value="<%= action.last %>" />
+		<button type="submit" class="ui-state-default ui-corner-all"><%= action.last %></button>
 	</p>
 </form>

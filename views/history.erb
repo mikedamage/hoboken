@@ -11,7 +11,7 @@
 			<div class="history_date"><%= friendly_time(version.updated_at) %></div>
 			<form action="/<%= @article.slug %>/edit" method="post">
 				<input type="hidden" name="body" value="<%= version.body %>" />
-				<input type="submit" value="Restore" />
+				<button type="submit" class="ui-state-default ui-corner-all">Restore</button>
 			</form>
 		</div>
 	<% end %>
